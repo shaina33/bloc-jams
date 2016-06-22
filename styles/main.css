@@ -68,6 +68,10 @@ body {
     max-width: 64rem;
 }
 
+.container.narrow {
+    max-width: 56rem;
+}
+
 /* bigger phones & smaller tablets */
 @media (min-width: 640px) {
     html { font-size: 112%; }
