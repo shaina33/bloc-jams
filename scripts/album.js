@@ -73,16 +73,24 @@ var createSongRow = function(songNumber, songName, songLength) {
 
 var findParentByClassName = function(current, name) {
     var found = false;
-    while (!found) {
-        if (current.parentElement == null) {return null}
-        else if (current.parentElement.classList.contains(name)) {
-            found = current.parentElement;
-            return found;
-        }
-        else {
-            current = current.parentElement;
-        }
-    };
+    if (current.parentElement === null) {
+        alert("No parent found.");
+        return null;
+    } else {
+        while (!found) {
+            if (current.parentElement == null) {
+                alert("No parent found with that class name.");
+                return null;
+            }
+            else if (current.parentElement.classList.contains(name)) {
+                found = current.parentElement;
+                return found;
+            }
+            else {
+                current = current.parentElement;
+            }
+        };
+    }
 };
 
 var getSongItem = function(element) {
@@ -176,6 +184,8 @@ window.onload = function() {
 //        console.log(event.target.className);
 //        console.log(getSongItem(event.target));
 //    })
+//    console.log(findParentByClassName(songRows[0], 'test'));
+// console.log(findParentByClassName(document.documentElement, 'test'));
     
 };
 
