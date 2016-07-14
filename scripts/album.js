@@ -135,6 +135,32 @@ var previousSong = function() {
     $currentlyPlayingSongElement.html(pauseButtonTemplate);
 };
 
+// assignment #32 Extra Credit
+var updateSong = function(direction) {
+    var $currentlyPlayingSongElement = getSongNumberCell(currentlyPlayingSongNumber);
+    $currentlyPlayingSongElement.html(currentlyPlayingSongNumber);
+    
+    if (direction === "previous") {
+        if (currentlyPlayingSongNumber <= 1) {
+        setSong(currentAlbum.songs.length);
+        } else {
+        currentSongFromAlbum = currentAlbum.songs[trackIndex(currentAlbum, currentSongFromAlbum) - 1];
+        currentlyPlayingSongNumber -= 1;
+        }
+    } else { // direction === "next"
+        if (currentlyPlayingSongNumber == currentAlbum.songs.length) {
+        setSong(1);
+        } else {
+        currentSongFromAlbum = currentAlbum.songs[trackIndex(currentAlbum, currentSongFromAlbum) + 1];
+        currentlyPlayingSongNumber += 1;
+        }
+    }
+    
+    updatePlayerBarSong()
+    $currentlyPlayingSongElement = getSongNumberCell(currentlyPlayingSongNumber);
+    $currentlyPlayingSongElement.html(pauseButtonTemplate);
+};
+
 var setSong = function(songNumber) {
     currentlyPlayingSongNumber = parseInt(songNumber);
     currentSongFromAlbum = (songNumber) ? currentAlbum.songs[songNumber-1] : null;
