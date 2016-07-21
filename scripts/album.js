@@ -3,7 +3,7 @@ var createSongRow = function(songNumber, songName, songLength) {
         '<tr class="album-view-song-item">'
       + '  <td class="song-item-number" data-song-number="' + songNumber + '">' + songNumber + '</td>'
       + '  <td class="song-item-title">' + songName + '</td>'
-      + '  <td class="song-item-duration">' + songLength + '</td>'
+      + '  <td class="song-item-duration">' + filterTimeCode(songLength) + '</td>'
       + '</tr>'
       ;
      var onHover = function() {
@@ -152,6 +152,7 @@ var updateSeekBarWhileSongPlays = function() {
             var seekBarFillRatio = this.getTime() / this.getDuration();
             var $seekBar = $('.seek-control .seek-bar');
             updateSeekPercentage($seekBar, seekBarFillRatio);
+            setCurrentTimeInPlayerBar(currentSoundFile.getTime());
         });
     }
 };
@@ -164,6 +165,7 @@ var updatePlayerBarSong = function() {
     $playerBarSong.text(currentSongFromAlbum.title);
     $playerBarArtist.text(currentAlbum.artist);
     $playerBarMobile.text(currentSongFromAlbum.title+" - "+currentAlbum.artist);
+    setTotalTimeInPlayerBar(currentSongFromAlbum.duration)
     
     $('.main-controls .play-pause').html(playerBarPauseButton);
 };
@@ -233,10 +235,10 @@ var getSongNumberCell = function(number) {
 };
 
 var togglePlayFromPlayerBar = function() {
-    if (!currentSoundFile) {
-        setSong(1);
-        currentSoundFile.pause();
-    }
+//    if (!currentSoundFile) {
+//        setSong(1);
+//        currentSoundFile.pause();
+//    }
     if ( currentSoundFile.isPaused() ) {
         getSongNumberCell(currentlyPlayingSongNumber).html(pauseButtonTemplate);
         $playpauseButton.html(playerBarPauseButton);
@@ -246,6 +248,22 @@ var togglePlayFromPlayerBar = function() {
         $playpauseButton.html(playerBarPlayButton);
         currentSoundFile.pause();
     }
+};
+
+var setCurrentTimeInPlayerBar = function(currentTime) {
+    $('.current-time').text(filterTimeCode(currentTime));
+};
+var setTotalTimeInPlayerBar = function(totalTime) {
+    $('.total-time').text(filterTimeCode(totalTime));
+};
+var filterTimeCode = function(timeinSeconds) {
+    timeinSeconds = parseFloat(timeinSeconds);
+    wholeMins = Math.floor(timeinSeconds / 60);
+    wholeSecs = Math.floor(timeinSeconds % 60);
+    if (wholeSecs < 10) {
+        wholeSecs = "0"+wholeSecs;
+    }
+    return wholeMins+":"+wholeSecs;
 };
 
 // global variables
